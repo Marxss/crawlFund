@@ -3,6 +3,8 @@ import json
 import re
 import time
 import random
+import redis
+redis=redis.Redis(host="127.0.0.1",port=6379,db=2)
 url="http://fundgz.1234567.com.cn/js/{}.js?rt=1589463125600"
 r = requests.get('http://fund.eastmoney.com/js/fundcode_search.js')
 print(r)
@@ -15,7 +17,15 @@ for i in daihao:
         r=requests.get(url.format(i))
         text = re.findall('\((.*?)\)', r.text)[0]
         dic=json.loads(text)
-        print(dic)
+        print(text)
     except Exception as e:
         print("wrong daihao: ",i)
+        continue
+    latest=redis.rpop(i)
+    if latest==None:
+        redis.rpush(i,text)
+    else:
+        latest=json.loads(latest)
+        if latest["gztime"]!=dic["gztime"]:
+            redis.rpush(i,text)
     time.sleep(random.random())
