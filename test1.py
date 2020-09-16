@@ -29,4 +29,5 @@ for i in daihao:
         latest=json.loads(latest)
         if latest["gztime"]!=dic["gztime"]:
             redis.rpush(i,text)
+            print("add: ", i)
     time.sleep(random.random())
