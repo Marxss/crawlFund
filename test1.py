@@ -14,16 +14,17 @@ print(ls)
 daihao=[i[0] for i in ls]
 for i in daihao:
     try:
-        r=requests.get(url.format(i))
+        r=requests.get(url.format(i),timeout=3)
         text = re.findall('\((.*?)\)', r.text)[0]
         dic=json.loads(text)
         print(text)
     except Exception as e:
         print("wrong daihao: ",i)
         continue
-    latest=redis.rpop(i)
+    latest=redis.lindex(i,-1)
     if latest==None:
         redis.rpush(i,text)
+        print("add: ",i)
     else:
         latest=json.loads(latest)
         if latest["gztime"]!=dic["gztime"]:
