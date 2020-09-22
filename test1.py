@@ -12,6 +12,7 @@ cont = re.findall('var r = (.*])', r.text)[0]  # 提取list
 ls = json.loads(cont)  # 将字符串个事的list转化为list格式
 print(ls)
 daihao=[i[0] for i in ls]
+num=0
 for i in daihao:
     try:
         r=requests.get(url.format(i),timeout=3)
@@ -24,10 +25,12 @@ for i in daihao:
     latest=redis.lindex(i,-1)
     if latest==None:
         redis.rpush(i,text)
-        print("add: ",i)
+        num+=1
+        print("[{}] add: ".format(num),i)
     else:
         latest=json.loads(latest)
         if latest["gztime"]!=dic["gztime"]:
             redis.rpush(i,text)
-            print("add: ", i)
+            num += 1
+            print("[{}] add: ".format(num), i)
     time.sleep(random.random())
