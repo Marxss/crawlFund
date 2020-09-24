@@ -15,6 +15,7 @@ def judgeFund(data:list,span:int):
             rate+=dailyRate
             if float(pre["gszzl"])>dailyRate:
                 winNum+=1
+        pre=cur
     winPercent=winNum/calNum
     res={"winPercent":winPercent,"rate":rate,"winNum":winNum,"fundcode":pre["fundcode"],"name":pre["name"]}
     print(res)
