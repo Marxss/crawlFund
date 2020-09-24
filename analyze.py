@@ -22,10 +22,15 @@ for i in lis[:int(sys.argv[1])]:
     print(i)
 print("sort winPercent: **********************************")
 lis.sort(key=lambda x:x["winPercent"],reverse=True)
-for i in lis[:int(sys.argv[1])]:
+queryNum=int(sys.argv[1])
+num=0
+for i in lis:
     if i["winNum"]<5:
         continue
     print(i)
+    num+=1
+    if num>=queryNum:
+        break
 
 
 
