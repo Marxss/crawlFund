@@ -2,12 +2,14 @@ import requests
 import json
 import re
 import time
+import datetime
 import random
 import redis
 redis=redis.Redis(host="127.0.0.1",port=6379,db=2,decode_responses=True)
 url="http://fundgz.1234567.com.cn/js/{}.js?rt=1589463125600"
 daihao=redis.lrange("errorFundCode",0,-1)
-print(daihao)
+print(time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time())))
+print("number of errorFundCode: ",len(daihao))
 num=0
 redis.delete("errorFundCode")
 for i in daihao:
