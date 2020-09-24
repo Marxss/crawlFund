@@ -15,13 +15,16 @@ for key in redis.keys("0*"): # 0*代表基金号，排除其他
         print(str(e))
     lis.append(util.judgeFund(allData,30))
 
-print("sort winPercent: **********************************")
-lis.sort(key=lambda x:x["winPercent"],reverse=True)
-for i in lis[:int(sys.argv[1])]:
-    print(i)
+
 print("sort rate: ****************************************")
 lis.sort(key=lambda x:x["rate"],reverse=True)
 for i in lis[:int(sys.argv[1])]:
+    print(i)
+print("sort winPercent: **********************************")
+lis.sort(key=lambda x:x["winPercent"],reverse=True)
+for i in lis[:int(sys.argv[1])]:
+    if i["winNum"]<5:
+        continue
     print(i)
 
 

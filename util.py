@@ -21,7 +21,7 @@ def judgeFund(data:list,span:int):
         pre=cur
     winPercent=winNum/calNum
     res={"winPercent":winPercent,"rate":rate,"winNum":winNum,"fundcode":pre["fundcode"],"name":pre["name"]}
-    print(res)
+    # print(res)
     return res
 
         
