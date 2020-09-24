@@ -20,7 +20,7 @@ for i in daihao:
         dic=json.loads(text)
         print("[{}] ".format(num),text)
     except Exception as e:
-        print("wrong daihao: ",i)
+        # print("wrong daihao: ",i)
         redis.lpush("errorFundCode",i)
         continue
     latest=redis.lindex(i,-1)
