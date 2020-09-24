@@ -3,7 +3,10 @@ import json
 
 def judgeFund(data:list,span:int):
     data=data[min(len(data)-span,0):]
-    pre=json.loads(data[0])
+    try:
+        pre=json.loads(data[0])
+    except Exception as e:
+        print(data[0])
     winNum=0
     rate=0
     calNum=0.00001
