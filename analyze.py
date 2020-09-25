@@ -20,6 +20,10 @@ print("sort rate: ****************************************")
 lis.sort(key=lambda x:x["rate"],reverse=True)
 for i in lis[:int(sys.argv[1])]:
     print(i)
+print("sort diffRate: **********************************")
+lis.sort(key=lambda x:x["diffRate"],reverse=True)
+for i in lis[:int(sys.argv[1])]:
+    print(i)
 print("sort winPercent: **********************************")
 lis.sort(key=lambda x:x["winPercent"],reverse=True)
 queryNum=int(sys.argv[1])
@@ -31,6 +35,7 @@ for i in lis:
     num+=1
     if num>=queryNum:
         break
+
 
 
 
