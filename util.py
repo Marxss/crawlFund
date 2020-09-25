@@ -9,14 +9,14 @@ def judgeFund(data:list,span:int):
         print(data[0])
     winNum=0
     diffRate=0
-    rate=(float(json.loads(data[-1])["dwjz"])-float(json.loads(data[0])["dwjz"]))/float(json.loads(data[0])["dwjz"])
+    rate=(float(json.loads(data[-1])["dwjz"])-float(json.loads(data[0])["dwjz"]))/float(json.loads(data[0])["dwjz"])*100
     calNum=0.00001
     for item in data[1:]:
         cur=json.loads(item)
         if cur["jzrq"]==pre["gztime"].split()[0]:
             calNum+=1
             dailyRate=(float(cur["dwjz"])-float(pre["dwjz"]))/float(pre["dwjz"])
-            diffRate+=dailyRate-float(pre["gszzl"])
+            diffRate+=dailyRate*100-float(pre["gszzl"])
             if float(pre["gszzl"])<dailyRate:
                 winNum+=1
         pre=cur
