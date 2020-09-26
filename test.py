@@ -1,2 +1,2 @@
 l=[1,2,3,4]
-print(l[len(l)-2:])
+print("{}{}{}{}".format(l))

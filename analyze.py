@@ -3,7 +3,7 @@ import time
 import util
 import redis
 import sys
-print(sys.argv)
+# print(sys.argv)
 redis=redis.Redis(host="127.0.0.1",port=6379,db=2,decode_responses=True)
 # print(redis.keys())
 lis=[]
@@ -29,7 +29,7 @@ lis.sort(key=lambda x:x["winPercent"],reverse=True)
 queryNum=int(sys.argv[1])
 num=0
 for i in lis:
-    if i["winNum"]<5:
+    if int(i["winNum"])<5:
         continue
     print(i)
     num+=1
