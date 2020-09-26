@@ -5,6 +5,7 @@ import redis
 import sys
 # print(sys.argv)
 redis=redis.Redis(host="127.0.0.1",port=6379,db=2,decode_responses=True)
+limitDay=30 #只看最近30天的情况
 # print(redis.keys())
 lis=[]
 for key in redis.keys("0*"): # 0*代表基金号，排除其他
@@ -13,7 +14,7 @@ for key in redis.keys("0*"): # 0*代表基金号，排除其他
     except Exception as e:
         print(key)
         print(str(e))
-    lis.append(util.judgeFund(allData,30))
+    lis.append(util.judgeFund(allData,limitDay))
 
 
 print("sort rate: ****************************************")
@@ -35,6 +36,15 @@ for i in lis:
     num+=1
     if num>=queryNum:
         break
+print("{} days avarge: **********************************".format(limitDay))
+allWinPercent=0
+allDiffRate=0
+allRate=0
+for i in lis:
+    allWinPercent+=float(i['winPercent'])
+    allDiffRate+=float(i['diffRate'])
+    allRate+=float(i["rate"])
+print("winPercent: {:^.5f}   diffRate: {:^.5f}   rate: {:^.5f}".format(allWinPercent/len(lis),allDiffRate/len(lis),allRate/len(lis)))
 
 
 
