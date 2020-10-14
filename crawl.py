@@ -35,5 +35,5 @@ for i in daihao:
             redis.rpush(i,text)
             num += 1
             print("[{}] add: ".format(num), i)
-    time.sleep(random.random())
+    time.sleep(random.random()*0.1)
 
