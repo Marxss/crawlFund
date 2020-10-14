@@ -18,15 +18,15 @@ for key in redis.keys("0*"): # 0*代表基金号，排除其他
 
 
 print("sort rate: ****************************************")
-lis.sort(key=lambda x:x["rate"],reverse=True)
+lis.sort(key=lambda x:int(x["rate"]),reverse=True)
 for i in lis[:int(sys.argv[1])]:
     print(i)
 print("sort diffRate: **********************************")
-lis.sort(key=lambda x:x["diffRate"],reverse=True)
+lis.sort(key=lambda x:int(x["diffRate"]),reverse=True)
 for i in lis[:int(sys.argv[1])]:
     print(i)
 print("sort winPercent: **********************************")
-lis.sort(key=lambda x:x["winPercent"],reverse=True)
+lis.sort(key=lambda x:int(x["winPercent"]),reverse=True)
 queryNum=int(sys.argv[1])
 num=0
 for i in lis:
