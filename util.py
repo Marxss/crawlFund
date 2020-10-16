@@ -2,8 +2,8 @@ import json
 
 
 def judgeFund(data:list,span:int):
-    data=data[min(len(data)-span,0):]
-    print(data)
+    data=data[max(len(data)-span,0):]
+    # print(data)
     try:
         pre=json.loads(data[0])
     except Exception as e:
