@@ -7,4 +7,4 @@ tokens=['a230cd00b15bc16d9e292212b750841ea6794a8709dc06d0f42309c7',
 
 for token in tokens:
     ts.pro_api(token)
-    print(ts.pro_bar(ts_code='000003.SZ', adj='hfq', start_date='20180101', end_date='20180211'))
+    print(ts.pro_bar(ts_code='000001.SZ', adj='hfq', start_date='20190101', end_date='20190211'))

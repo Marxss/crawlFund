@@ -36,15 +36,21 @@ for i in lis:
     num+=1
     if num>=queryNum:
         break
+print("sort diffEsRate: **********************************")
+lis.sort(key=lambda x:float(x["diffEsRate"]),reverse=True)
+for i in lis[:int(sys.argv[1])]:
+    print(i)
 print("{} days avarge: **********************************".format(limitDay))
 allWinPercent=0
 allDiffRate=0
+allDiffEsRate=0
 allRate=0
 for i in lis:
     allWinPercent+=float(i['winPercent'])
     allDiffRate+=float(i['diffRate'])
+    allDiffEsRate+=float(i['diffEsRate'])
     allRate+=float(i["rate"])
-print("winPercent: {:^.5f}   diffRate: {:^.5f}   rate: {:^.5f}".format(allWinPercent/len(lis),allDiffRate/len(lis),allRate/len(lis)))
+print("winPercent: {:^.5f}   diffRate: {:^.5f}   rate: {:^.5f}   diffEsRate: {:^.5f}".format(allWinPercent/len(lis),allDiffRate/len(lis),allRate/len(lis),allDiffEsRate/len(lis)))
 
 
 

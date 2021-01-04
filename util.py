@@ -1,5 +1,6 @@
 import json
 import re
+import traceback
 
 import requests
 import tushare as ts
@@ -9,8 +10,8 @@ ts.pro_api('5b2839d7f9616d9711dc42852a8fa31e02c8ccc4c231e33d72a93242')
 
 
 def calRealCode(fundCode, start_date=None, end_date=None):
-    url = 'http://fundf10.eastmoney.com/FundArchivesDatas.aspx?type=jjcc&code={}&topline=10'.format(fundCode)
-    # print(url)
+    url = 'http://fundf10.eastmoney.com/FundArchivesDatas.aspx?type=jjcc&code={}&topline=20'.format(fundCode)
+    print(fundCode)
     r = requests.get(url)
     # print(r.text)
     # print(len(r.text))
@@ -24,6 +25,9 @@ def calRealCode(fundCode, start_date=None, end_date=None):
         # print(index,": ",re.findall('quote.eastmoney.com/(.*?).html', item.a['href'])[0])
         # print(item.find_all("td")[6])
         # print(index,": ",item.find_all("td")[6].get_text())
+        location = re.findall('quote.eastmoney.com/(.*?).html', item.a['href'])[0][:2]
+        if location not in ['sz', 'sh', 'SZ', 'SH']:
+            continue
         total += float(item.find_all("td")[6].get_text()[:-1])
     # print(total)
     rate = 0
@@ -31,12 +35,14 @@ def calRealCode(fundCode, start_date=None, end_date=None):
         # print(index,": ",item)
         code = re.findall('quote.eastmoney.com/(.*?).html', item.a['href'])[0][2:]
         location = re.findall('quote.eastmoney.com/(.*?).html', item.a['href'])[0][:2]
+        if location not in ['sz', 'sh', 'SZ', 'SH']:
+            continue
         # print(index,": ",code)
         # print(item.find_all("td")[6])
         weight = float(item.find_all("td")[6].get_text()[:-1])
         # print(index,": ",weight)
         df = ts.pro_bar(ts_code=code + '.' + location.upper(), adj='qfq', start_date=start_date, end_date=end_date)
-        # print(df)
+        # print(code + '.' + location.upper())
         df_list = df['close'].tolist()
         rate += (df_list[0] - df_list[-1]) / df_list[-1] * (weight / total)
     # print(rate)
@@ -69,10 +75,15 @@ def judgeFund(data: list, span: int):
     winPercent = winNum / max(calNum, 0.000001)
     # res={"winPercent":winPercent,"diffRate":diffRate,"rate":rate,"winNum":winNum,"fundcode":pre["fundcode"],"name":pre["name"]}
     # 新增代码计算持仓股票的变化率
-    estimateRate = calRealCode(fundCode=fundCode, start_date=start['jzrq'], end_date=end['jzrq']) * 100
+    try:
+        estimateRate = calRealCode(fundCode=fundCode, start_date=start['jzrq'], end_date=end['jzrq']) * 100
+        diffEsRate = rate - estimateRate
+    except Exception as e:
+        traceback.print_exc()
+        diffEsRate = 0
+        estimateRate = 0
     res = {"winPercent": "{:^.5f}".format(winPercent), "diffRate": "{:^.5f}".format(diffRate),
            "rate": "{:^.5f}".format(rate), "winNum": "{:^3}".format(winNum), "fundcode": pre["fundcode"],
-           "name": pre["name"], "esRate": "{:^.5f}".format(estimateRate),
-           "diffEsRate": "{:^.5f}".format(rate - estimateRate)}
+           "esRate": "{:^.5f}".format(estimateRate), "diffEsRate": "{:^.5f}".format(diffEsRate), "name": pre["name"], }
     print(res)
     return res
