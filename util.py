@@ -6,7 +6,7 @@ import requests
 import tushare as ts
 from bs4 import BeautifulSoup
 
-ts.pro_api('5b2839d7f9616d9711dc42852a8fa31e02c8ccc4c231e33d72a93242')
+ts.set_token('5b2839d7f9616d9711dc42852a8fa31e02c8ccc4c231e33d72a93242')
 
 
 def calRealCode(fundCode, start_date=None, end_date=None):
